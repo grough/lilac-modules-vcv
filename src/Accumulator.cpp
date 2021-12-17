@@ -24,7 +24,7 @@ struct Accumulator : Module {
 
   Accumulator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
-    configInput(RATE_INPUT, "Rate");
+    configInput(RATE_INPUT, "Growth rate");
     configInput(RESET_INPUT, "Reset");
     configOutput(SUM_OUTPUT, "Total");
   }
@@ -79,7 +79,7 @@ struct Accumulator : Module {
 
     if (inputs[RESET_INPUT].isPolyphonic()) {
       for (int c = 0; c < inputs[RESET_INPUT].getChannels(); c++) {
-      if (resetTrigger[c].process(inputs[RESET_INPUT].getVoltage(c) > 0.0f)) {
+        if (resetTrigger[c].process(inputs[RESET_INPUT].getVoltage(c) > 0.0f)) {
           sums[c] = 0.0f;
           if (c == channels - 1) {
             channels--;
@@ -101,10 +101,10 @@ struct AccumulatorWidget : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 59.123)), module, Accumulator::RATE_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 81.454)), module, Accumulator::RESET_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 75.357)), module, Accumulator::RATE_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 93.857)), module, Accumulator::RESET_INPUT));
 
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.359)), module, Accumulator::SUM_OUTPUT));
+    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.357)), module, Accumulator::SUM_OUTPUT));
   }
 };
 
