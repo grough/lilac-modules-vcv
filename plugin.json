@@ -25,8 +25,9 @@
       "name": "Comparator",
       "description": "Polyphonic voltage comparator",
       "tags": [
-        "Utility",
-        "Polyphonic"
+        "Logic",
+        "Polyphonic",
+        "Utility"
       ]
     }
   ]
