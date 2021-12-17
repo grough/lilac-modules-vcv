@@ -18,7 +18,8 @@ struct Accumulator : Module {
     LIGHTS_LEN
   };
 
-  float value[16] = {0.0f};
+  float sums[16] = {0.0f};
+  float channels = 0;
   dsp::BooleanTrigger resetTrigger[16];
 
   Accumulator() {
@@ -29,14 +30,34 @@ struct Accumulator : Module {
   }
 
   void process(const ProcessArgs &args) override {
-    outputs[SUM_OUTPUT].setChannels(inputs[RATE_INPUT].getChannels());
+    if (inputs[RATE_INPUT].getChannels() > channels) {
+      channels = inputs[RATE_INPUT].getChannels();
+    }
 
-    for (int c = 0; c < inputs[RATE_INPUT].getChannels(); c++) {
-      value[c] += inputs[RATE_INPUT].getVoltage(c) * args.sampleTime;
-      outputs[SUM_OUTPUT].setVoltage(value[c], c);
+    outputs[SUM_OUTPUT].setChannels(channels);
 
+    for (int c = 0; c < channels; c++) {
+      sums[c] += inputs[RATE_INPUT].getVoltage(c) * args.sampleTime;
+      outputs[SUM_OUTPUT].setVoltage(sums[c], c);
+    }
+
+    if (inputs[RESET_INPUT].isMonophonic()) {
+      if (resetTrigger[0].process(inputs[RESET_INPUT].getVoltage() > 0.0f)) {
+        for (int c = 0; c < 16; c++) {
+          sums[c] = 0.0f;
+        }
+        channels = 0;
+      }
+    }
+
+    if (inputs[RESET_INPUT].isPolyphonic()) {
+      for (int c = 0; c < inputs[RESET_INPUT].getChannels(); c++) {
       if (resetTrigger[c].process(inputs[RESET_INPUT].getVoltage(c) > 0.0f)) {
-        value[c] = 0.0f;
+          sums[c] = 0.0f;
+          if (c == channels - 1) {
+            channels--;
+          }
+        }
       }
     }
   }
