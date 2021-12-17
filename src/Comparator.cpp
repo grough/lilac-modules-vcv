@@ -1,3 +1,4 @@
+#include <limits>
 #include "plugin.hpp"
 #include "./components.hpp"
 
@@ -21,6 +22,8 @@ struct Comparator : Module {
     LIGHTS_LEN
   };
 
+  float tolerance = std::numeric_limits<float>::min();
+
   Comparator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
     configParam(A_PARAM, -10.0f, 10.0f, 0.0f, "A", "V");
@@ -29,6 +32,19 @@ struct Comparator : Module {
     configOutput(LESS_OUTPUT, "A < B");
     configOutput(EQUAL_OUTPUT, "A = B");
     configOutput(GREATER_OUTPUT, "A > B");
+  }
+
+  json_t *dataToJson() override {
+    json_t *root = json_object();
+    json_object_set_new(root, "tolerance", json_real(tolerance));
+    return root;
+  }
+
+  void dataFromJson(json_t *root) override {
+    json_t *toleranceJ = json_object_get(root, "tolerance");
+    if (toleranceJ) {
+      tolerance = json_number_value(toleranceJ);
+    }
   }
 
   void process(const ProcessArgs &args) override {
@@ -55,18 +71,60 @@ struct Comparator : Module {
 
       float b = inputs[B_INPUT].getVoltage(c);
 
-      if (a < b) {
+      if (b < a - tolerance) {
         outputs[LESS_OUTPUT].setVoltage(10.0f, c);
-      }
-
-      if (a == b) {
+      } else if (b > a + tolerance) {
+        outputs[GREATER_OUTPUT].setVoltage(10.0f, c);
+      } else {
         outputs[EQUAL_OUTPUT].setVoltage(10.0f, c);
       }
-
-      if (a > b) {
-        outputs[GREATER_OUTPUT].setVoltage(10.0f, c);
-      }
     }
+  }
+};
+
+struct ToleranceQuantity : Quantity {
+  float *srcTolerance = NULL;
+
+  ToleranceQuantity(float *_srcTolerance) {
+    srcTolerance = _srcTolerance;
+  }
+
+  void setValue(float value) override {
+    *srcTolerance = math::clamp(value, getMinValue(), getMaxValue());
+  }
+
+  float getValue() override {
+    return *srcTolerance;
+  }
+
+  float getMinValue() override {
+    return std::numeric_limits<float>::min();
+  }
+
+  float getMaxValue() override {
+    return 1.0f;
+  }
+
+  float getDefaultValue() override {
+    return getMinValue();
+  }
+
+  std::string getDisplayValueString() override {
+    return string::f("±%.3f", getDisplayValue());
+  }
+
+  std::string getUnit() override {
+    return "V";
+  }
+};
+
+struct ToleranceSlider : ui::Slider {
+  ToleranceSlider(float *_srcTolerance) {
+    quantity = new ToleranceQuantity(_srcTolerance);
+  }
+
+  ~ToleranceSlider() {
+    delete quantity;
   }
 };
 
@@ -88,6 +146,20 @@ struct ComparatorWidget : ModuleWidget {
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 75.534)), module, Comparator::LESS_OUTPUT));
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 93.947)), module, Comparator::EQUAL_OUTPUT));
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.359)), module, Comparator::GREATER_OUTPUT));
+  }
+
+  void appendContextMenu(Menu *menu) override {
+    Comparator *module = dynamic_cast<Comparator *>(this->module);
+
+    menu->addChild(new MenuSeparator());
+
+    MenuLabel *toleranceLabel = new MenuLabel();
+    toleranceLabel->text = "A = B tolerance";
+    menu->addChild(toleranceLabel);
+
+    ToleranceSlider *toleranceSlider = new ToleranceSlider(&module->tolerance);
+    toleranceSlider->box.size.x = 180.0f;
+    menu->addChild(toleranceSlider);
   }
 };
 
