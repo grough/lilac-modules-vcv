@@ -58,18 +58,21 @@ struct Comparator : Module {
     outputs[EQUAL_OUTPUT].setChannels(channels);
     outputs[GREATER_OUTPUT].setChannels(channels);
 
+    float a = params[A_PARAM].getValue();
+    bool aConnected = inputs[A_INPUT].isConnected();
+    bool aMono = inputs[A_INPUT].isMonophonic();
+    bool bMono = inputs[B_INPUT].isMonophonic();
+
     for (int c = 0; c < channels; c++) {
       outputs[LESS_OUTPUT].setVoltage(0.0f, c);
       outputs[EQUAL_OUTPUT].setVoltage(0.0f, c);
       outputs[GREATER_OUTPUT].setVoltage(0.0f, c);
 
-      float a = params[A_PARAM].getValue();
-
-      if (inputs[A_INPUT].isConnected()) {
-        a = inputs[A_INPUT].getVoltage(c);
+      if (aConnected) {
+        a = inputs[A_INPUT].getVoltage(aMono ? 0 : c);
       }
 
-      float b = inputs[B_INPUT].getVoltage(c);
+      float b = inputs[B_INPUT].getVoltage(bMono ? 0 : c);
 
       if (b < a - tolerance) {
         outputs[LESS_OUTPUT].setVoltage(10.0f, c);
