@@ -29,6 +29,33 @@ struct Accumulator : Module {
     configOutput(SUM_OUTPUT, "Total");
   }
 
+  json_t *dataToJson() override {
+    json_t *root = json_object();
+    json_t *sumsJ = json_array();
+    for (size_t c = 0; c < 16; c++) {
+      json_array_append_new(sumsJ, json_real(sums[c]));
+    }
+    json_object_set_new(root, "sums", sumsJ);
+    json_object_set_new(root, "channels", json_integer(channels));
+    return root;
+  }
+
+  void dataFromJson(json_t *root) override {
+    json_t *sumsJ = json_object_get(root, "sums");
+    if (sumsJ) {
+      size_t i;
+      json_t *sumJ;
+      json_array_foreach(sumsJ, i, sumJ) {
+        float sum = json_number_value(sumJ);
+        sums[i] = sum;
+      }
+    }
+    json_t *channelsJ = json_object_get(root, "channels");
+    if (channelsJ) {
+      channels = json_number_value(channelsJ);
+    }
+  }
+
   void process(const ProcessArgs &args) override {
     if (inputs[RATE_INPUT].getChannels() > channels) {
       channels = inputs[RATE_INPUT].getChannels();
