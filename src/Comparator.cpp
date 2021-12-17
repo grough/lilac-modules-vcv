@@ -27,11 +27,11 @@ struct Comparator : Module {
   Comparator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
     configParam(A_PARAM, -10.0f, 10.0f, 0.0f, "A", "V");
-    configInput(A_INPUT, "A");
+    configInput(A_INPUT, "A override");
     configInput(B_INPUT, "B");
-    configOutput(LESS_OUTPUT, "A < B");
-    configOutput(EQUAL_OUTPUT, "A = B");
-    configOutput(GREATER_OUTPUT, "A > B");
+    configOutput(LESS_OUTPUT, "A less than B");
+    configOutput(EQUAL_OUTPUT, "A equal to B");
+    configOutput(GREATER_OUTPUT, "A greater than B");
   }
 
   json_t *dataToJson() override {
