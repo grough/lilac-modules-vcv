@@ -3,6 +3,7 @@
 
 struct Comparator : Module {
   enum ParamId {
+    A_PARAM,
     PARAMS_LEN
   };
   enum InputId {
@@ -22,6 +23,7 @@ struct Comparator : Module {
 
   Comparator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
+    configParam(A_PARAM, -10.0f, 10.0f, 0.0f, "A", "V");
     configInput(A_INPUT, "A");
     configInput(B_INPUT, "B");
     configOutput(LESS_OUTPUT, "A < B");
@@ -45,7 +47,12 @@ struct Comparator : Module {
       outputs[EQUAL_OUTPUT].setVoltage(0.0f, c);
       outputs[GREATER_OUTPUT].setVoltage(0.0f, c);
 
-      float a = inputs[A_INPUT].getVoltage(c);
+      float a = params[A_PARAM].getValue();
+
+      if (inputs[A_INPUT].isConnected()) {
+        a = inputs[A_INPUT].getVoltage(c);
+      }
+
       float b = inputs[B_INPUT].getVoltage(c);
 
       if (a < b) {
@@ -73,11 +80,13 @@ struct ComparatorWidget : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 27.373)), module, Comparator::A_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 49.704)), module, Comparator::B_INPUT));
+    addParam(createParamCentered<WarmKnob>(mm2px(Vec(7.62, 22.902)), module, Comparator::A_PARAM));
 
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 72.143)), module, Comparator::LESS_OUTPUT));
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 93.309)), module, Comparator::EQUAL_OUTPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 34.16)), module, Comparator::A_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 54.256)), module, Comparator::B_INPUT));
+
+    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 75.534)), module, Comparator::LESS_OUTPUT));
+    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 93.947)), module, Comparator::EQUAL_OUTPUT));
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.359)), module, Comparator::GREATER_OUTPUT));
   }
 };
