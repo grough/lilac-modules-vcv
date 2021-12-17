@@ -6,7 +6,6 @@
   "brand": "Lilac",
   "author": "Gavin Rough",
   "authorEmail": "lilacloop@grough.com",
-  "pluginUrl": "https://grough.github.io/lilac-modules-vcv/",
   "manualUrl": "https://github.com/grough/lilac-modules-vcv#readme",
   "sourceUrl": "https://github.com/grough/lilac-modules-vcv",
   "changelogUrl": "https://github.com/grough/lilac-modules-vcv/releases",
@@ -14,16 +13,17 @@
     {
       "slug": "Accumulator",
       "name": "Accumulator",
-      "description": "Polyphonic voltage accumulator or integrator",
+      "description": "Dual polyphonic voltage accumulator or integrator",
       "tags": [
-        "Utility",
-        "Polyphonic"
+        "Dual",
+        "Polyphonic",
+        "Utility"
       ]
     },
     {
       "slug": "Comparator",
       "name": "Comparator",
-      "description": "Polyphonic voltage comparator",
+      "description": "Polyphonic voltage comparator with adjustable tolerance",
       "tags": [
         "Logic",
         "Polyphonic",
