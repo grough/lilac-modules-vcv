@@ -51,7 +51,6 @@ struct Accumulator : Module {
     json_t *configsJ = json_array();
     for (size_t i = 0; i < 2; i++) {
       json_t *sumJ = json_object();
-      json_object_set_new(sumJ, "channels", json_integer(channels[i]));
       json_array_append_new(configsJ, sumJ);
       json_t *sumsJ = json_array();
       for (size_t c = 0; c < channels[i]; c++) {
@@ -59,24 +58,23 @@ struct Accumulator : Module {
       }
       json_object_set_new(sumJ, "sums", sumsJ);
     }
-    json_object_set_new(rootJ, "accumulator", configsJ);
+    json_object_set_new(rootJ, "accumulators", configsJ);
     return rootJ;
   }
 
   void dataFromJson(json_t *root) override {
-    json_t *configsJ = json_object_get(root, "accumulator");
+    json_t *configsJ = json_object_get(root, "accumulators");
     if (configsJ) {
       size_t i;
       json_t *configJ;
       json_array_foreach(configsJ, i, configJ) {
-        json_t *channelsJ = json_object_get(configJ, "channels");
-        channels[i] = json_number_value(channelsJ);
         json_t *sumsJ = json_object_get(configJ, "sums");
         if (sumsJ) {
           size_t c;
           json_t *sumJ;
           json_array_foreach(sumsJ, c, sumJ) {
             sums[i][c] = json_number_value(sumJ);
+            channels[i] = c;
           }
         }
       }
