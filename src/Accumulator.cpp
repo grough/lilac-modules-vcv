@@ -134,12 +134,12 @@ struct AccumulatorWidget : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 15.357)), module, Accumulator::RATE_1_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 33.857)), module, Accumulator::RESET_1_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 75.357)), module, Accumulator::RATE_2_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 93.857)), module, Accumulator::RESET_2_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 20.929)), module, Accumulator::RATE_1_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 39.429)), module, Accumulator::RESET_1_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 76.429)), module, Accumulator::RATE_2_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 94.929)), module, Accumulator::RESET_2_INPUT));
 
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 52.357)), module, Accumulator::SUM_1_OUTPUT));
+    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 56.857)), module, Accumulator::SUM_1_OUTPUT));
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.357)), module, Accumulator::SUM_2_OUTPUT));
   }
 };

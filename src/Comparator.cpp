@@ -141,10 +141,10 @@ struct ComparatorWidget : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addParam(createParamCentered<WarmKnob>(mm2px(Vec(7.62, 22.902)), module, Comparator::A_PARAM));
+    addParam(createParamCentered<WarmKnob>(mm2px(Vec(7.62, 23.284)), module, Comparator::A_PARAM));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 34.16)), module, Comparator::A_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 54.256)), module, Comparator::B_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 36.463)), module, Comparator::A_INPUT));
+    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 55.048)), module, Comparator::B_INPUT));
 
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 75.534)), module, Comparator::LESS_OUTPUT));
     addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 93.947)), module, Comparator::EQUAL_OUTPUT));
