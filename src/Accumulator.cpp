@@ -121,6 +121,15 @@ struct Accumulator : Module {
       }
     }
   }
+
+  void onReset() override {
+    for (int i = 0; i < 2; i++) {
+      for (int c = 0; c < 16; c++) {
+        channels[i] = 0;
+        sums[i][c] = 0.0f;
+      }
+    }
+  }
 };
 
 struct AccumulatorWidget : ModuleWidget {

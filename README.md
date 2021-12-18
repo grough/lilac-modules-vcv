@@ -13,7 +13,8 @@ produce a signal with corresponding polyphony on the _SUM_ output.
 
 A trigger on the _RESET_ input will reset the _SUM_ output to zero. A trigger
 sent to the _RESET_ input over a polyphonic cable will clear the sum stored on
-the corresponding polyphony channel.
+the corresponding polyphony channel. To completely reset the module's internal
+state, select _Initialize_ from the module's menu.
 
 The module's internal state is saved with your patch file, meaning that
 accumulated values will be retained across Rack sessions.
@@ -21,14 +22,14 @@ accumulated values will be retained across Rack sessions.
 ## Comparator
 
 The Comparator module compares two input voltages _A_ and _B_, with support for
-monophonic and polyphonic signals.
+mono and polyphonic signals.
 
 Voltage _A_ can be set using the knob control, or by connecting a cable to the
 nearby input port. Connecting a cable to the _A_ input port will disable the
 knob control. Voltage _B_ can only be set using its input port.
 
 The tolerance for what is considered equal on the _A = B_ output is determined
-by the _A = B tolerance_ control in the module's context menu. The minimum (and
+by the _A = B tolerance_ control in the module's menu. The minimum (and
 default) tolerance is a very small non-zero number that reads as _±0.000V_ on
 the slider. The tolerance can be increased to a maximum of ±1V by clicking and
 dragging the slider. Polyphonic cables connected to the _A_ and/or _B_ input
