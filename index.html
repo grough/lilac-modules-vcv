@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Lilac Modules is a free plugin for VCV Rack."
+    />
+    <title>Lilac Modules for VCV Rack - User Manual</title>
+    <style>
+      body {
+        background-color: rgb(240, 240, 240);
+        margin: 0 0 48px 0;
+        line-height: 1.5;
+        color: #382d30;
+      }
+      body,
+      h1 {
+        font-family: sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+      }
+      h1 {
+        margin: 0 auto;
+        max-width: 22em;
+      }
+      ol,
+      ul {
+        padding-left: 1em;
+      }
+      a {
+        color: #ab3a56;
+        text-decoration: underline;
+      }
+
+      h2,
+      h3 {
+        font-size: 1em;
+        margin-top: 2em;
+      }
+      h2 {
+        border-bottom: 2px solid #382d30;
+        margin-top: 48px;
+        margin-bottom: 24px;
+        padding-left: 12px;
+        line-height: 2.6;
+        font-size: 16px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #382d30;
+      }
+      header {
+        margin: 2em 0.8em;
+        text-align: center;
+      }
+      strong {
+        background-color: #dad5d5;
+        color: #382d30;
+        display: inline-block;
+        line-height: 1.2;
+        padding: 0 0.2rem;
+        font-size: 0.9em;
+      }
+      #module-preview {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        width: calc(100% + 2em);
+        overflow: hidden;
+        text-align: center;
+        line-height: 0;
+        margin: 3em 0 3em -1em;
+      }
+      #module-preview img {
+        height: 540px;
+        background-color: rgb(218, 213, 213);
+      }
+      main {
+        max-width: 620px;
+        margin: 1em auto;
+        padding: 0 0.8em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>
+        Lilac Modules is a free plugin for
+        <a href="https://vcvrack.com/">VCV Rack</a>.
+      </h1>
+    </header>
+    <main>
+      <div id="module-preview">
+        <img
+          src="lilac-modules-vcv-rack.webp"
+          alt="Modules included with the Lilac Modules plugin"
+        />
+      </div>
+
+      <h2>Accumulator</h2>
+
+      <p>
+        The Accumulator module calculates a sum of voltage over time, with
+        support for mono and polyphonic signals.
+      </p>
+
+      <p>
+        A signal of N volts connected to the <strong>RATE</strong> input will
+        accumulate at N volts per second on the <strong>SUM</strong> output. For
+        example, a constant input of 1V will accumulate to 10V over 10 seconds.
+        A polyphonic cable connected to the <strong>RATE</strong> input will
+        produce a signal with corresponding polyphony on the
+        <strong>SUM</strong> output.
+      </p>
+
+      <p>
+        A trigger on the <strong>RESET</strong> input will reset the
+        <strong>SUM</strong> output to zero. A trigger sent to the
+        <strong>RESET</strong> input over a polyphonic cable will clear the sum
+        stored on the corresponding polyphony channel. To completely reset the
+        module's internal state, select Initialize from the module's menu.
+      </p>
+
+      <p>
+        The Accumulator module saves accumulated values with your patch file,
+        retaining them across Rack sessions.
+      </p>
+
+      <h2>Comparator</h2>
+
+      <p>
+        The Comparator module compares two input voltages <strong>A</strong> and
+        <strong>B</strong>, with support for mono and polyphonic signals.
+      </p>
+
+      <p>
+        Voltage <strong>A</strong> can be set using the knob control, or by
+        connectiAnearby input port. Connecting a cable to the
+        <strong>A</strong> input port will disable the knob control. Voltage
+        <strong>B</strong> can only be set using its input port.
+      </p>
+
+      <p>
+        The tolerance for what is considered equal on the
+        <strong>A = B</strong> output is determined by the
+        <em>A = B tolerance</em> control in the module's menu. The minimum (and
+        default) tolerance is a very small non-zero number that reads as
+        <em>±0.000V</em> on the slider. The tolerance can be increased to a
+        maximum of ±1V by clicking and dragging the slider. Polyphonic cables
+        connected to the <strong>A</strong> and/or <strong>B</strong> input
+        ports will produce a signal with corresponding polyphony on all output
+        ports.
+      </p>
+    </main>
+  </body>
+</html>
