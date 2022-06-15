@@ -74,9 +74,9 @@ struct Comparator : Module {
 
       float b = inputs[B_INPUT].getVoltage(bMono ? 0 : c);
 
-      if (b < a - tolerance) {
+      if (a < b - tolerance) {
         outputs[LESS_OUTPUT].setVoltage(10.0f, c);
-      } else if (b > a + tolerance) {
+      } else if (a > b + tolerance) {
         outputs[GREATER_OUTPUT].setVoltage(10.0f, c);
       } else {
         outputs[EQUAL_OUTPUT].setVoltage(10.0f, c);
