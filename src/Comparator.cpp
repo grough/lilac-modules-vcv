@@ -13,9 +13,9 @@ struct Comparator : Module {
     INPUTS_LEN
   };
   enum OutputId {
-    LESS_OUTPUT,
-    EQUAL_OUTPUT,
     GREATER_OUTPUT,
+    EQUAL_OUTPUT,
+    LESS_OUTPUT,
     OUTPUTS_LEN
   };
   enum LightId {
