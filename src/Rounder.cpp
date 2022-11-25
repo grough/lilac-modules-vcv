@@ -27,18 +27,19 @@ struct Rounder : Module {
 
   Rounder() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
-    configInput(SOURCE_1_INPUT, "Quantize source 1");
-    configInput(SOURCE_2_INPUT, "Quantize source 2");
-    configInput(SOURCE_3_INPUT, "Quantize source 3");
-    configInput(SOURCE_4_INPUT, "Quantize source 4");
+    configInput(SOURCE_1_INPUT, "Quantizer source 1");
+    configInput(SOURCE_2_INPUT, "Quantizer source 2");
+    configInput(SOURCE_3_INPUT, "Quantizer source 3");
+    configInput(SOURCE_4_INPUT, "Quantizer source 4");
     configInput(MAIN_INPUT, "Main");
     configOutput(MAIN_OUTPUT, "Quantized");
     // configOutput(TRIG_OUTPUT, "");
-    logDiv.setDivision(8192);
+    configBypass(MAIN_INPUT, MAIN_OUTPUT);
     srcIns[0] = SOURCE_1_INPUT;
     srcIns[1] = SOURCE_2_INPUT;
     srcIns[2] = SOURCE_3_INPUT;
     srcIns[3] = SOURCE_4_INPUT;
+    logDiv.setDivision(8192);
   }
 
   void process(const ProcessArgs &args) override {
