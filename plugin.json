@@ -29,6 +29,15 @@
         "Polyphonic",
         "Utility"
       ]
+    },
+    {
+      "slug": "Rounder",
+      "name": "Rounder",
+      "description": "Quantize a signal to the nearest of several inputs",
+      "tags": [
+        "Polyphonic",
+        "Quantizer"
+      ]
     }
   ]
 }
