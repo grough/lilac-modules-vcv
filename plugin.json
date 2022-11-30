@@ -33,7 +33,7 @@
     {
       "slug": "Rounder",
       "name": "Rounder",
-      "description": "Quantize a signal to the nearest of several inputs",
+      "description": "Quantize a signal to an arbitrary set of values",
       "tags": [
         "Polyphonic",
         "Quantizer"
