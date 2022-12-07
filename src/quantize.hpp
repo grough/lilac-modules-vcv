@@ -1,3 +1,8 @@
+// Map x from min..max -> 0..1
+float normalize(float min, float max, float x) {
+  return ((x - min)) / (max - min);
+}
+
 float quantize(std::vector<float> sources, float in) {
   int nearest = 0;
   float minDiff = std::numeric_limits<float>::max();
@@ -11,7 +16,7 @@ float quantize(std::vector<float> sources, float in) {
   return sources[nearest];
 }
 
-float quantizeBalanced(std::vector<float> sources, float in) {
+float quantizeProportional(std::vector<float> sources, float in) {
   sort(sources.begin(), sources.end());
   float inc = (sources.back() - sources.front()) / (sources.size() - 1);
   float minDiff = std::numeric_limits<float>::max();
@@ -26,9 +31,9 @@ float quantizeBalanced(std::vector<float> sources, float in) {
   return sources[nearest];
 }
 
-float quantizeSwitch(std::vector<float> sources, float inMin, float inMax, float in) {
+float scan(std::vector<float> sources, float inMin, float inMax, float in) {
   sort(sources.begin(), sources.end());
-  float x = (((in - inMin) * (1 - 0)) / (inMax - inMin)) + 0;
+  float x = normalize(inMin, inMax, in);
   int idx = floor(x * sources.size());
   if (idx > sources.size()) {
     return sources.back();

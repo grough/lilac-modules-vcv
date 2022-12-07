@@ -20,22 +20,37 @@ struct Rounder : Module {
   enum LightId {
     LIGHTS_LEN
   };
-  enum DistMode {
-    NATURAL,
-    BALANCED
+  enum ModeId {
+    QUANTIZE,
+    QUANTIZE_P,
+    UNI_10,
+    UNI_1,
+    UNI_2,
+    BI_5,
   };
-  enum RangeMode {
-    UNCONSTRAINED,
-    CONSTRAINED
+
+  struct Mode {
+    ModeId id;
+    bool scan;
+    float min;
+    float max;
   };
+
+  Mode modes[6] = {
+    {QUANTIZE, false, 0.f, 0.f},
+    {QUANTIZE_EQ, false, 0.f, 0.f},
+    {UNI_10, true, 0.f, 10.f},
+    {UNI_1, true, 0.f, 1.f},
+    {UNI_2, true, 0.f, 2.f},
+    {BI_5, true, -5.f, 5.f},
+  };
+
+  Mode mode = modes[0];
 
   dsp::ClockDivider logDiv;
   InputId srcIns[4];
   int srcCount;
   std::vector<float> sources;
-  float inputRange[2];
-  DistMode distMode;
-  RangeMode rangeMode;
 
   Rounder() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
@@ -51,33 +66,34 @@ struct Rounder : Module {
     srcIns[2] = SOURCE_3_INPUT;
     srcIns[3] = SOURCE_4_INPUT;
     srcCount = 0;
-    inputRange[0] = 0.0f;
-    inputRange[1] = 10.0f;
-    distMode = NATURAL;
-    rangeMode = UNCONSTRAINED;
     logDiv.setDivision(8192);
   }
 
   json_t *dataToJson() override {
     json_t *root = json_object();
-    json_object_set_new(root, "distMode", json_integer(distMode));
+    json_object_set_new(root, "modeId", json_integer(mode.id));
     return root;
   }
 
   void dataFromJson(json_t *root) override {
-    json_t *distModeJson = json_object_get(root, "distMode");
-    if (distModeJson) {
-      distMode = (DistMode)json_number_value(distModeJson);
+    json_t *idJson = json_object_get(root, "modeId");
+    if (idJson) {
+      ModeId modeId = (ModeId)json_number_value(idJson);
+      mode = modes[modeId];
     }
   }
 
   void process(const ProcessArgs &args) override {
+    srcCount = 0;
     sources.clear();
+
     for (size_t i = 0; i < 4; i++) {
       int channels = inputs[srcIns[i]].getChannels();
       if (channels > 0) {
         for (size_t c = 0; c < channels; c++) {
           sources.push_back(inputs[srcIns[i]].getVoltage(c));
+          inputs[srcIns[i]].getVoltage(c);
+          srcCount++;
         }
       }
     }
@@ -86,7 +102,11 @@ struct Rounder : Module {
     outputs[MAIN_OUTPUT].setChannels(channels);
 
     for (size_t c = 0; c < channels; c++) {
-      outputs[MAIN_OUTPUT].setVoltage(mapInputToSource(c), c);
+      if (srcCount > 0) {
+        outputs[MAIN_OUTPUT].setVoltage(mapInputToSource(c), c);
+      } else {
+        outputs[MAIN_OUTPUT].setVoltage(0.f, c);  
+      }
     }
 
     // if (logDiv.process()) {
@@ -95,42 +115,28 @@ struct Rounder : Module {
   }
 
   float mapInputToSource(int chan) {
-    // Distribution mode: natural, balanced
-    // Input range: natural, 0-10V, -5-5V, 0-1V, 0-2V
     float in = inputs[MAIN_INPUT].getVoltage(chan);
 
-    if (distMode == NATURAL) {
+    if (mode.id == QUANTIZE) {
       return quantize(sources, in);
     }
-    if (distMode == BALANCED && rangeMode == UNCONSTRAINED) {
-      return quantizeBalanced(sources, in);
+    if (mode.id == QUANTIZE_P) {
+      return quantizeProportional(sources, in);
     }
-    if (distMode == BALANCED && rangeMode == CONSTRAINED) {
-      return quantizeSwitch(sources, 0.f, 10.f, in);
+    if (mode.scan == true) {
+      return scan(sources, mode.min, mode.max, in);
     }
+    return 0.f;
   }
 };
 
 struct RounderWidget : ModuleWidget {
-  struct DistModeItem : MenuItem {
+  struct ModeItem : MenuItem {
     Rounder *module;
-    Rounder::DistMode distMode;
+    Rounder::ModeId modeId;
 
     void onAction(const event::Action &e) override {
-      module->distMode = distMode;
-    }
-  };
-
-  struct RangeItem : MenuItem {
-    Rounder *module;
-    Rounder::RangeMode rangeMode;
-    float min;
-    float max;
-
-    void onAction(const event::Action &e) override {
-      module->rangeMode = rangeMode;
-      module->inputRange[0] = min;
-      module->inputRange[1] = max;
+      module->mode = module->modes[modeId];
     }
   };
 
@@ -157,69 +163,51 @@ struct RounderWidget : ModuleWidget {
 
     menu->addChild(new MenuSeparator());
 
-    MenuLabel *distModeLabel = new MenuLabel();
-    distModeLabel->text = "Distribution";
-    menu->addChild(distModeLabel);
+    MenuLabel *modeLabel = new MenuLabel();
+    modeLabel->text = "Mode";
+    menu->addChild(modeLabel);
 
-    DistModeItem *naturalDistItem = new DistModeItem;
-    naturalDistItem->text = "Natural";
-    naturalDistItem->rightText = CHECKMARK(module->distMode == Rounder::NATURAL);
-    naturalDistItem->distMode = Rounder::NATURAL;
-    naturalDistItem->module = module;
-    menu->addChild(naturalDistItem);
-
-    DistModeItem *equalItem = new DistModeItem;
-    equalItem->text = "Equal";
-    equalItem->rightText = CHECKMARK(module->distMode == Rounder::BALANCED);
-    equalItem->distMode = Rounder::BALANCED;
-    equalItem->module = module;
-    menu->addChild(equalItem);
-
-    MenuLabel *rangeLabel = new MenuLabel();
-    rangeLabel->text = "Input Range";
-    menu->addChild(rangeLabel);
-
-    RangeItem *naturalRangeItem = new RangeItem;
-    naturalRangeItem->text = "Natural";
-    // naturalRangeItem->rightText = CHECKMARK(module->distMode == Rounder::NATURAL);
-    naturalRangeItem->rangeMode = Rounder::UNCONSTRAINED;
-    naturalRangeItem->min = 0.0f;
-    naturalRangeItem->max = 0.0f;
-    naturalRangeItem->module = module;
-    menu->addChild(naturalRangeItem);
-
-    RangeItem *rangeItem2 = new RangeItem;
-    rangeItem2->text = "0 - 10V";
-    // rangeItem2->rightText = CHECKMARK(module->distMode == Rounder::NATURAL);
-    rangeItem2->rangeMode = Rounder::CONSTRAINED;
-    rangeItem2->min = 0.0f;
-    rangeItem2->max = 10.0f;
-    rangeItem2->module = module;
-    menu->addChild(rangeItem2);
+    ModeItem *quantizeModeItem = new ModeItem;
+    quantizeModeItem->text = "Quantize";
+    quantizeModeItem->modeId = Rounder::QUANTIZE;
+    quantizeModeItem->rightText = CHECKMARK(module->mode.id == Rounder::QUANTIZE);
+    quantizeModeItem->module = module;
+    menu->addChild(quantizeModeItem);
     
-    RangeItem *rangeItem3 = new RangeItem;
-    rangeItem3->text = "0 - 1V";
-    rangeItem3->rangeMode = Rounder::CONSTRAINED;
-    rangeItem3->min = 0.f;
-    rangeItem3->max = 1.f;
-    rangeItem3->module = module;
-    menu->addChild(rangeItem3);
+    ModeItem *quantizeEqModeItem = new ModeItem;
+    quantizeEqModeItem->text = "Quantize (Proportional)";
+    quantizeEqModeItem->modeId = Rounder::QUANTIZE_EQ;
+    quantizeEqModeItem->rightText = CHECKMARK(module->mode.id == Rounder::QUANTIZE_EQ);
+    quantizeEqModeItem->module = module;
+    menu->addChild(quantizeEqModeItem);
     
-    RangeItem *rangeItem4 = new RangeItem;
-    rangeItem4->text = "0 - 2V";
-    rangeItem4->rangeMode = Rounder::CONSTRAINED;
-    rangeItem4->min = 0.f;
-    rangeItem4->max = 2.f;
-    rangeItem4->module = module;
-    menu->addChild(rangeItem4);
+    ModeItem *scanUni10 = new ModeItem;
+    scanUni10->text = "Scan 0 – 10V";
+    scanUni10->modeId = Rounder::UNI_10;
+    scanUni10->rightText = CHECKMARK(module->mode.id == Rounder::UNI_10);
+    scanUni10->module = module;
+    menu->addChild(scanUni10);
     
-    RangeItem *rangeItem5 = new RangeItem;
-    rangeItem5->text = "-5 - 5V";
-    rangeItem5->rangeMode = Rounder::CONSTRAINED;
-    rangeItem5->min = -5.f;
-    rangeItem5->max = 5.f;
-    rangeItem5->module = module;
-    menu->addChild(rangeItem5);
+    ModeItem *scanUni1 = new ModeItem;
+    scanUni1->text = "Scan 0 – 1V";
+    scanUni1->modeId = Rounder::UNI_1;
+    scanUni1->rightText = CHECKMARK(module->mode.id == Rounder::UNI_1);
+    scanUni1->module = module;
+    menu->addChild(scanUni1);
+    
+    ModeItem *scanUni2 = new ModeItem;
+    scanUni2->text = "Scan 0 – 2V";
+    scanUni2->modeId = Rounder::UNI_2;
+    scanUni2->rightText = CHECKMARK(module->mode.id == Rounder::UNI_2);
+    scanUni2->module = module;
+    menu->addChild(scanUni2);
+    
+    ModeItem *scanBi5 = new ModeItem;
+    scanBi5->text = "Scan -5 – 5V";
+    scanBi5->modeId = Rounder::BI_5;
+    scanBi5->rightText = CHECKMARK(module->mode.id == Rounder::BI_5);
+    scanBi5->module = module;
+    menu->addChild(scanBi5);
   }
 };
 

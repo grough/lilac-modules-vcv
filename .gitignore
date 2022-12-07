@@ -3,4 +3,5 @@
 /plugin.so
 /plugin.dylib
 /plugin.dll
+test/test.out
 .DS_Store
