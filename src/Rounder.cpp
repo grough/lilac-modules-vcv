@@ -37,12 +37,12 @@ struct Rounder : Module {
   };
 
   Mode modes[6] = {
-    {QUANTIZE, false, 0.f, 0.f},
-    {QUANTIZE_EQ, false, 0.f, 0.f},
-    {UNI_10, true, 0.f, 10.f},
-    {UNI_1, true, 0.f, 1.f},
-    {UNI_2, true, 0.f, 2.f},
-    {BI_5, true, -5.f, 5.f},
+      {QUANTIZE, false, 0.f, 0.f},
+      {QUANTIZE_P, false, 0.f, 0.f},
+      {UNI_10, true, 0.f, 10.f},
+      {UNI_1, true, 0.f, 1.f},
+      {UNI_2, true, 0.f, 2.f},
+      {BI_5, true, -5.f, 5.f},
   };
 
   Mode mode = modes[0];
@@ -105,7 +105,7 @@ struct Rounder : Module {
       if (srcCount > 0) {
         outputs[MAIN_OUTPUT].setVoltage(mapInputToSource(c), c);
       } else {
-        outputs[MAIN_OUTPUT].setVoltage(0.f, c);  
+        outputs[MAIN_OUTPUT].setVoltage(0.f, c);
       }
     }
 
@@ -173,35 +173,35 @@ struct RounderWidget : ModuleWidget {
     quantizeModeItem->rightText = CHECKMARK(module->mode.id == Rounder::QUANTIZE);
     quantizeModeItem->module = module;
     menu->addChild(quantizeModeItem);
-    
+
     ModeItem *quantizeEqModeItem = new ModeItem;
     quantizeEqModeItem->text = "Quantize (Proportional)";
-    quantizeEqModeItem->modeId = Rounder::QUANTIZE_EQ;
-    quantizeEqModeItem->rightText = CHECKMARK(module->mode.id == Rounder::QUANTIZE_EQ);
+    quantizeEqModeItem->modeId = Rounder::QUANTIZE_P;
+    quantizeEqModeItem->rightText = CHECKMARK(module->mode.id == Rounder::QUANTIZE_P);
     quantizeEqModeItem->module = module;
     menu->addChild(quantizeEqModeItem);
-    
+
     ModeItem *scanUni10 = new ModeItem;
     scanUni10->text = "Scan 0 – 10V";
     scanUni10->modeId = Rounder::UNI_10;
     scanUni10->rightText = CHECKMARK(module->mode.id == Rounder::UNI_10);
     scanUni10->module = module;
     menu->addChild(scanUni10);
-    
+
     ModeItem *scanUni1 = new ModeItem;
     scanUni1->text = "Scan 0 – 1V";
     scanUni1->modeId = Rounder::UNI_1;
     scanUni1->rightText = CHECKMARK(module->mode.id == Rounder::UNI_1);
     scanUni1->module = module;
     menu->addChild(scanUni1);
-    
+
     ModeItem *scanUni2 = new ModeItem;
     scanUni2->text = "Scan 0 – 2V";
     scanUni2->modeId = Rounder::UNI_2;
     scanUni2->rightText = CHECKMARK(module->mode.id == Rounder::UNI_2);
     scanUni2->module = module;
     menu->addChild(scanUni2);
-    
+
     ModeItem *scanBi5 = new ModeItem;
     scanBi5->text = "Scan -5 – 5V";
     scanBi5->modeId = Rounder::BI_5;
