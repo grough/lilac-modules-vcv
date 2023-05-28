@@ -7,4 +7,5 @@ void init(Plugin *p) {
   p->addModel(modelAccumulator);
   p->addModel(modelComparator);
   p->addModel(modelRounder);
+  p->addModel(modelBroadcast);
 }

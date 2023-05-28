@@ -37,7 +37,15 @@
       "tags": [
         "Polyphonic",
         "Quantizer"
-      ]
+      ],
+      "hidden": true
+    },
+    {
+      "slug": "Broadcast",
+      "name": "Broadcast",
+      "description": "",
+      "tags": [],
+      "hidden": true
     }
   ]
 }
