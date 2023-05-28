@@ -62,9 +62,9 @@ struct BroadcastWidget : ModuleWidget {
 
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.948, 15.638)), module, Broadcast::LIVE_1_INPUT));
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(20.532, 15.638)), module, Broadcast::LIVE_2_INPUT));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.948, 34.138)), module, Broadcast::BROADCAST_1_INPUT));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(20.532, 34.138)), module, Broadcast::BROADCAST_2_INPUT));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.419, 65.888)), module, Broadcast::AUDITION_INPUT));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.948, 34.667)), module, Broadcast::BROADCAST_1_INPUT));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(20.532, 34.667)), module, Broadcast::BROADCAST_2_INPUT));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.24, 60.596)), module, Broadcast::AUDITION_INPUT));
 
     addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(8.625, 91.782)), module, Broadcast::MONITOR_1_OUTPUT));
     addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(21.855, 91.782)), module, Broadcast::MONITOR_2_OUTPUT));
