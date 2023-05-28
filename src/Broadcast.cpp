@@ -37,6 +37,11 @@ struct Broadcast : Module {
     configOutput(BROADCAST_1_OUTPUT, "");
     configOutput(BROADCAST_2_OUTPUT, "");
 
+    configBypass(LIVE_1_INPUT, BROADCAST_1_OUTPUT);
+    configBypass(LIVE_2_INPUT, BROADCAST_2_OUTPUT);
+    configBypass(BROADCAST_1_INPUT, MONITOR_1_OUTPUT);
+    configBypass(BROADCAST_2_INPUT, MONITOR_2_OUTPUT);
+
     fade.setRiseFall(100.f, 1.f);
   }
 
