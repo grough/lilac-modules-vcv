@@ -13,7 +13,6 @@ struct Broadcast : Module {
     INPUTS_LEN
   };
   enum OutputId {
-    AUDITION_OUTPUT,
     MONITOR_1_OUTPUT,
     MONITOR_2_OUTPUT,
     BROADCAST_1_OUTPUT,
@@ -23,6 +22,8 @@ struct Broadcast : Module {
   enum LightId {
     LIGHTS_LEN
   };
+
+  dsp::SlewLimiter fade;
 
   Broadcast() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
@@ -35,10 +36,13 @@ struct Broadcast : Module {
     configOutput(MONITOR_2_OUTPUT, "");
     configOutput(BROADCAST_1_OUTPUT, "");
     configOutput(BROADCAST_2_OUTPUT, "");
+
+    fade.setRiseFall(100.f, 1.f);
   }
 
   void process(const ProcessArgs &args) override {
-    float audition = inputs[AUDITION_INPUT].getVoltage() / 10.f;
+    fade.process(args.sampleTime, inputs[AUDITION_INPUT].getVoltage() / 10.f);
+    float audition = fade.out;
 
     // Monitor output plays both live input and performance when audition is high. Plays performance when audition is low.
     outputs[MONITOR_1_OUTPUT].setVoltage(audition * inputs[LIVE_1_INPUT].getVoltage() + inputs[BROADCAST_1_INPUT].getVoltage());
