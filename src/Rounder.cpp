@@ -1,6 +1,6 @@
 #include "plugin.hpp"
 #include "quantize.hpp"
-#include "./components.hpp"
+#include "./controls.hpp"
 
 struct Rounder : Module {
   enum ParamId {

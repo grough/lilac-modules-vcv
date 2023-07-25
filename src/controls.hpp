@@ -1,7 +1,5 @@
 #pragma once
 
-// #include "../../plugin.hpp"
-
 struct WarmButton : SvgSwitch {
   WarmButton() {
     momentary = true;

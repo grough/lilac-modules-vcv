@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-#include "./components.hpp"
+#include "./controls.hpp"
 
 struct Accumulator : Module {
   enum ParamId {

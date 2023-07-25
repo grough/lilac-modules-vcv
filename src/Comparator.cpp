@@ -1,6 +1,6 @@
 #include <limits>
 #include "plugin.hpp"
-#include "./components.hpp"
+#include "./controls.hpp"
 
 struct Comparator : Module {
   enum ParamId {
