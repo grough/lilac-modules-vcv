@@ -22,7 +22,7 @@ struct Comparator : Module {
     LIGHTS_LEN
   };
 
-  float tolerance = std::numeric_limits<float>::min();
+  float tolerance = 0.f;
 
   Comparator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
@@ -101,7 +101,7 @@ struct ToleranceQuantity : Quantity {
   }
 
   float getMinValue() override {
-    return std::numeric_limits<float>::min();
+    return 0.f;
   }
 
   float getMaxValue() override {

@@ -29,11 +29,10 @@ nearby input port. Connecting a cable to the _A_ input port will disable the
 knob control. Voltage _B_ can only be set using its input port.
 
 The tolerance for what is considered equal on the _A = B_ output is determined
-by the _A = B tolerance_ control in the module's menu. The minimum (and
-default) tolerance is a very small non-zero number that reads as _±0.000V_ on
-the slider. The tolerance can be increased to a maximum of ±1V by clicking and
-dragging the slider. Polyphonic cables connected to the _A_ and/or _B_ input
-ports will produce a signal with corresponding polyphony on all output ports.
+by the _A = B tolerance_ control in the module's menu. The default tolerance is
+0V, and can be increased to a maximum of ±1V by clicking and dragging the
+slider. Polyphonic cables connected to the _A_ and/or _B_ input ports will
+produce a signal with corresponding polyphony on all output ports.
 
 ## Looper
 
