@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "quantize.hpp"
+#include "./components.hpp"
 
 struct Rounder : Module {
   enum ParamId {
@@ -144,10 +145,10 @@ struct RounderWidget : ModuleWidget {
     setModule(module);
     setPanel(createPanel(asset::plugin(pluginInstance, "res/Rounder.svg")));
 
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.62, 23.298)), module, Rounder::SOURCE_1_INPUT));
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.62, 33.881)), module, Rounder::SOURCE_2_INPUT));

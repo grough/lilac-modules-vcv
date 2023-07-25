@@ -136,19 +136,19 @@ struct ComparatorWidget : ModuleWidget {
     setModule(module);
     setPanel(createPanel(asset::plugin(pluginInstance, "res/Comparator.svg")));
 
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addParam(createParamCentered<WarmKnob>(mm2px(Vec(7.62, 23.284)), module, Comparator::A_PARAM));
+    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 23.284)), module, Comparator::A_PARAM));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 36.463)), module, Comparator::A_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 55.048)), module, Comparator::B_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 36.463)), module, Comparator::A_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 55.048)), module, Comparator::B_INPUT));
 
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 75.534)), module, Comparator::LESS_OUTPUT));
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 93.947)), module, Comparator::EQUAL_OUTPUT));
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.359)), module, Comparator::GREATER_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 75.534)), module, Comparator::LESS_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 93.947)), module, Comparator::EQUAL_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 112.359)), module, Comparator::GREATER_OUTPUT));
   }
 
   void appendContextMenu(Menu *menu) override {

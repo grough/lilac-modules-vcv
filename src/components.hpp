@@ -1,11 +1,36 @@
-struct V1Port : rack::app::SvgPort {
-  V1Port() {
-    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/V1Port.svg")));
+#pragma once
+
+// #include "../../plugin.hpp"
+
+struct WarmButton : SvgSwitch {
+  WarmButton() {
+    momentary = true;
+    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/WarmButton_0.svg")));
+    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/WarmButton_1.svg")));
   }
 };
 
-struct WarmKnob : RoundKnob {
-  WarmKnob() {
-    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/WarmKnob.svg")));
+struct LilacKnob : app::SvgKnob {
+  widget::SvgWidget *bg;
+
+  LilacKnob() {
+    minAngle = -0.83 * M_PI;
+    maxAngle = 0.83 * M_PI;
+    bg = new widget::SvgWidget;
+    fb->addChildBelow(bg, tw);
+    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LilacKnob_fg.svg")));
+    bg->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LilacKnob_bg.svg")));
+  }
+};
+
+struct LilacPort : app::SvgPort {
+  LilacPort() {
+    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LilacPort.svg")));
+  }
+};
+
+struct LilacScrew : app::SvgScrew {
+  LilacScrew() {
+    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LilacScrew.svg")));
   }
 };

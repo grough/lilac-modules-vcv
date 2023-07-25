@@ -136,18 +136,18 @@ struct AccumulatorWidget : ModuleWidget {
     setModule(module);
     setPanel(createPanel(asset::plugin(pluginInstance, "res/Accumulator.svg")));
 
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 20.929)), module, Accumulator::RATE_1_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 39.429)), module, Accumulator::RESET_1_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 76.429)), module, Accumulator::RATE_2_INPUT));
-    addInput(createInputCentered<V1Port>(mm2px(Vec(7.62, 94.929)), module, Accumulator::RESET_2_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 20.929)), module, Accumulator::RATE_1_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 39.429)), module, Accumulator::RESET_1_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 76.429)), module, Accumulator::RATE_2_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 94.929)), module, Accumulator::RESET_2_INPUT));
 
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 56.857)), module, Accumulator::SUM_1_OUTPUT));
-    addOutput(createOutputCentered<V1Port>(mm2px(Vec(7.62, 112.357)), module, Accumulator::SUM_2_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 56.857)), module, Accumulator::SUM_1_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 112.357)), module, Accumulator::SUM_2_OUTPUT));
   }
 };
 
