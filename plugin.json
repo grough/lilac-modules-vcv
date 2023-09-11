@@ -31,16 +31,6 @@
       ]
     },
     {
-      "slug": "Rounder",
-      "name": "Rounder",
-      "description": "Quantize a signal to an arbitrary set of values",
-      "tags": [
-        "Polyphonic",
-        "Quantizer"
-      ],
-      "hidden": true
-    },
-    {
       "slug": "Broadcast",
       "name": "Broadcast",
       "description": "",
