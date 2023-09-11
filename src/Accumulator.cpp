@@ -29,6 +29,8 @@ struct Accumulator : Module {
   float channels[2] = {0};
   dsp::BooleanTrigger resetTrigger[2][16];
 
+  bool saveSumWithPatch = true;
+
   Accumulator() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
     configInput(RATE_1_INPUT, "Growth rate");
@@ -59,22 +61,30 @@ struct Accumulator : Module {
       json_object_set_new(sumJ, "sums", sumsJ);
     }
     json_object_set_new(rootJ, "accumulators", configsJ);
+    json_object_set_new(rootJ, "saveSumWithPatch", json_boolean(saveSumWithPatch));
     return rootJ;
   }
 
   void dataFromJson(json_t *root) override {
-    json_t *configsJ = json_object_get(root, "accumulators");
-    if (configsJ) {
-      size_t i;
-      json_t *configJ;
-      json_array_foreach(configsJ, i, configJ) {
-        json_t *sumsJ = json_object_get(configJ, "sums");
-        if (sumsJ) {
-          size_t c;
-          json_t *sumJ;
-          json_array_foreach(sumsJ, c, sumJ) {
-            sums[i][c] = json_number_value(sumJ);
-            channels[i] = c;
+
+    json_t *saveSumWithPatchJson = json_object_get(root, "saveSumWithPatch");
+    if (saveSumWithPatchJson)
+      saveSumWithPatch = json_boolean_value(saveSumWithPatchJson);
+    // Only load sum values if menu option is set
+    if (saveSumWithPatch) {
+      json_t *configsJ = json_object_get(root, "accumulators");
+      if (configsJ) {
+        size_t i;
+        json_t *configJ;
+        json_array_foreach(configsJ, i, configJ) {
+          json_t *sumsJ = json_object_get(configJ, "sums");
+          if (sumsJ) {
+            size_t c;
+            json_t *sumJ;
+            json_array_foreach(sumsJ, c, sumJ) {
+              sums[i][c] = json_number_value(sumJ);
+              channels[i] = c;
+            }
           }
         }
       }
@@ -148,6 +158,19 @@ struct AccumulatorWidget : ModuleWidget {
 
     addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 56.857)), module, Accumulator::SUM_1_OUTPUT));
     addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 112.357)), module, Accumulator::SUM_2_OUTPUT));
+  }
+
+  void appendContextMenu(Menu *menu) override {
+    Accumulator *module = dynamic_cast<Accumulator *>(this->module);
+    menu->addChild(new MenuSeparator);
+    menu->addChild(createBoolMenuItem(
+        "Save sum with patch", "",
+        [=]() {
+          return module->saveSumWithPatch;
+        },
+        [=](bool value) {
+          module->saveSumWithPatch = value;
+        }));
   }
 };
 

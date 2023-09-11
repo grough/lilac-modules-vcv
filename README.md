@@ -16,8 +16,9 @@ sent to the _RESET_ input over a polyphonic cable will clear the sum stored on
 the corresponding polyphony channel. To completely reset the module's internal
 state, select _Initialize_ from the module's menu.
 
-The module's internal state is saved with your patch file, meaning that
-accumulated values will be retained across Rack sessions.
+The module's internal state is saved with the patch file, meaning that
+accumulated values will be retained across Rack sessions. This can be disabled
+by toggling "Save sum with patch" in the module's menu.
 
 ## Comparator
 
