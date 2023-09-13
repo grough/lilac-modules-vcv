@@ -21,6 +21,16 @@
       ]
     },
     {
+      "slug": "AccumulatorSingle",
+      "name": "AccumulatorSingle",
+      "description": "",
+      "tags": [
+        "Polyphonic",
+        "Utility"
+      ],
+      "hidden": true
+    },
+    {
       "slug": "Comparator",
       "name": "Comparator",
       "description": "Polyphonic voltage comparator with adjustable tolerance",
