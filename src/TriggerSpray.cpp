@@ -23,23 +23,31 @@ struct TriggerSpray : Module {
   dsp::BooleanTrigger inputTrig;
   dsp::Timer timer;
   dsp::PulseGenerator trigs[16];
+  dsp::ClockDivider uiDivider;
   bool armed[16];
   float delay[16];
+  int channels = 4;
 
   TriggerSpray() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
-    configParam(DELAY_TIME_PARAM, 0.f, 1.f, 0.f, "");
-    configParam(VOICES_PARAM, 1.f, 16.f, 0.f, "");
-    configInput(TRIGGER_INPUT, "");
-    configInput(DELAY_TIME_INPUT, "");
+    configParam(DELAY_TIME_PARAM, 0.f, 1.f, 0.f, "Max time", " s");
+    configParam(VOICES_PARAM, 1.f, 16.f, 4.f, "Voices");
+    configInput(TRIGGER_INPUT, "Trigger");
+    configInput(DELAY_TIME_INPUT, "Time attenuator");
     configOutput(TRIGGER_OUTPUT, "");
+    paramQuantities[VOICES_PARAM]->snapEnabled = true;
+    uiDivider.setDivision(1024);
   }
 
   void process(const ProcessArgs &args) override {
-    getOutput(TRIGGER_OUTPUT).setChannels(16);
+    if (uiDivider.process()) {
+      channels = static_cast<float>(getParam(VOICES_PARAM).getValue());
+      getOutput(TRIGGER_OUTPUT).setChannels(channels);
+    }
+
     timer.process(args.sampleTime);
 
-    for (size_t i = 0; i < 16; i++) {
+    for (size_t i = 0; i < channels; i++) {
       if (armed[i] && timer.getTime() > delay[i]) {
         trigs[i].trigger();
         armed[i] = false;
@@ -49,9 +57,9 @@ struct TriggerSpray : Module {
 
     if (inputTrig.process(getInput(TRIGGER_INPUT).getVoltage() > 0.f)) {
       timer.reset();
-      for (size_t i = 0; i < 16; i++) {
+      for (size_t i = 0; i < channels; i++) {
         armed[i] = true;
-        delay[i] = random::uniform() * getParam(DELAY_TIME_PARAM).getValue() * (getInput(DELAY_TIME_INPUT).isConnected() ? (getInput(DELAY_TIME_INPUT).getVoltage() / 10.f) : 1.f);
+        delay[i] = random::uniform() * getParam(DELAY_TIME_PARAM).getValue() * (getInput(DELAY_TIME_INPUT).isConnected() ? getInput(DELAY_TIME_INPUT).getVoltage() / 10.f : 1.f);
       }
     };
   }
@@ -62,13 +70,11 @@ struct TriggerSprayWidget : ModuleWidget {
     setModule(module);
     setPanel(createPanel(asset::plugin(pluginInstance, "res/TriggerSpray.svg")));
 
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 
     addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 37.043)), module, TriggerSpray::DELAY_TIME_PARAM));
-    addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.62, 74.084)), module, TriggerSpray::VOICES_PARAM));
+    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 74.084)), module, TriggerSpray::VOICES_PARAM));
 
     addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 15.89)), module, TriggerSpray::TRIGGER_INPUT));
     addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 50.222)), module, TriggerSpray::DELAY_TIME_INPUT));
