@@ -5,7 +5,7 @@
    viewBox="0 0 15.239999 128.5"
    version="1.1"
    id="svg8"
-   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
+   inkscape:version="1.2.1 (9c6d41e4, 2022-07-14)"
    sodipodi:docname="TriggerSpray.svg"
    inkscape:export-filename="/Users/grough/Desktop/VCV Junk/Lilac Progress 20201015-2.png"
    inkscape:export-xdpi="300"
@@ -35,14 +35,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.2991058"
-     inkscape:cx="-38.488012"
-     inkscape:cy="244.39888"
+     inkscape:cx="-83.518987"
+     inkscape:cy="247.8628"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="components"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1357"
-     inkscape:window-height="1051"
+     inkscape:window-width="1674"
+     inkscape:window-height="1224"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
@@ -397,7 +397,7 @@
        id="text1208"
        style="font-weight:bold;font-size:2.46944px;font-family:Helvetica;-inkscape-font-specification:'Helvetica Bold';fill:#382d30;stroke-width:0.2">
       <path
-         d="M 2.0287924,104.66036 H 1.6513829 v 0.63906 H 1.2824138 v -1.77732 h 0.7741116 q 0.2676834,0 0.4268465,0.13746 0.1591631,0.13746 0.1591631,0.42564 0,0.31471 -0.1591631,0.44493 -0.1591631,0.13023 -0.4545795,0.13023 z m 0.1736325,-0.37018 q 0.072347,-0.0639 0.072347,-0.20257 0,-0.13866 -0.073553,-0.19775 -0.072347,-0.0591 -0.203777,-0.0591 H 1.6513829 v 0.52331 h 0.3460592 q 0.1314301,0 0.2049828,-0.0639 z"
+         d="M 2.0287924,104.66036 H 1.6513829 v 0.63906 H 1.2824138 v -1.77732 h 0.7741116 q 0.2676834,0 0.4268465,0.13746 0.1591631,0.13746 0.1591631,0.42564 0,0.31471 -0.1591631,0.44493 -0.1591631,0.13023 -0.4545795,0.13023 z m 0.1736325,-0.37018 q 0.072347,-0.0639 0.072347,-0.20257 0,-0.13866 -0.073553,-0.19775 -0.072347,-0.0591 -0.203777,-0.0591 h -0.346059 v 0.52331 h 0.3460592 q 0.1314301,0 0.2049828,-0.0639 z"
          id="path640" />
       <path
          d="m 3.7072399,105.34886 q -0.3810268,0 -0.5823923,-0.20739 -0.270095,-0.25442 -0.270095,-0.73312 0,-0.48834 0.270095,-0.73311 0.2013655,-0.2074 0.5823923,-0.2074 0.3810269,0 0.5823924,0.2074 0.2688892,0.24477 0.2688892,0.73311 0,0.4787 -0.2688892,0.73312 -0.2013655,0.20739 -0.5823924,0.20739 z m 0.3508824,-0.47749 q 0.1290186,-0.16278 0.1290186,-0.46302 0,-0.29903 -0.1302244,-0.46181 -0.1290186,-0.16399 -0.3496766,-0.16399 -0.2206579,0 -0.3520881,0.16278 -0.1314301,0.16278 -0.1314301,0.46302 0,0.30024 0.1314301,0.46302 0.1314302,0.16278 0.3520881,0.16278 0.220658,0 0.3508824,-0.16278 z"
@@ -421,6 +421,17 @@
          d="m 13.481302,105.25602 q -0.147105,0.0904 -0.361734,0.0904 -0.353294,0 -0.578775,-0.24477 -0.235127,-0.24598 -0.235127,-0.67283 0,-0.43167 0.237539,-0.69212 0.237539,-0.26045 0.628212,-0.26045 0.338824,0 0.543807,0.17243 0.206189,0.17122 0.236333,0.42805 h -0.365352 q -0.0422,-0.18207 -0.206188,-0.25442 -0.09164,-0.0398 -0.203777,-0.0398 -0.214629,0 -0.353294,0.16278 -0.137459,0.16158 -0.137459,0.48714 0,0.32797 0.149517,0.46422 0.149517,0.13626 0.34003,0.13626 0.186896,0 0.306268,-0.10732 0.119373,-0.10852 0.147106,-0.28336 h -0.411172 v -0.29662 h 0.74035 v 0.95377 h -0.245979 l -0.03738,-0.22186 q -0.107314,0.12661 -0.192925,0.17846 z"
          id="path654" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;display:inline;opacity:1;fill:#382d30;fill-opacity:1;stroke-width:0.264583"
+       x="2.9693017"
+       y="66.798721"
+       id="text578"><tspan
+         sodipodi:role="line"
+         id="tspan576"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.46944px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#382d30;fill-opacity:1;stroke-width:0.264583"
+         x="2.9693017"
+         y="66.798721">VOICES</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -633,7 +644,7 @@
      inkscape:label="components"
      inkscape:groupmode="layer"
      id="components"
-     style="display:none;opacity:0.5">
+     style="display:inline;opacity:1">
     <circle
        style="fill:#0000ff;stroke-width:4.10001"
        cx="7.6199999"
@@ -657,10 +668,17 @@
        r="4.0999999" />
     <circle
        id="circle983"
-       style="display:inline;opacity:0.5;fill:#ff0000;stroke-width:4.65"
+       style="display:inline;opacity:1;fill:#ff0000;stroke-width:4.65"
        cx="7.6199999"
        cy="37.042675"
        inkscape:label="DELAY_TIME"
+       r="4.6500001" />
+    <circle
+       id="circle522"
+       style="display:inline;opacity:1;fill:#ff0000;stroke-width:4.65"
+       cx="7.6199999"
+       cy="74.084343"
+       inkscape:label="VOICES"
        r="4.6500001" />
   </g>
 </svg>

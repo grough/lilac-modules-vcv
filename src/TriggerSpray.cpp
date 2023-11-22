@@ -4,6 +4,7 @@
 struct TriggerSpray : Module {
   enum ParamId {
     DELAY_TIME_PARAM,
+    VOICES_PARAM,
     PARAMS_LEN
   };
   enum InputId {
@@ -28,6 +29,7 @@ struct TriggerSpray : Module {
   TriggerSpray() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
     configParam(DELAY_TIME_PARAM, 0.f, 1.f, 0.f, "");
+    configParam(VOICES_PARAM, 1.f, 16.f, 0.f, "");
     configInput(TRIGGER_INPUT, "");
     configInput(DELAY_TIME_INPUT, "");
     configOutput(TRIGGER_OUTPUT, "");
@@ -66,6 +68,7 @@ struct TriggerSprayWidget : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
     addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 37.043)), module, TriggerSpray::DELAY_TIME_PARAM));
+    addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.62, 74.084)), module, TriggerSpray::VOICES_PARAM));
 
     addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 15.89)), module, TriggerSpray::TRIGGER_INPUT));
     addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 50.222)), module, TriggerSpray::DELAY_TIME_INPUT));
