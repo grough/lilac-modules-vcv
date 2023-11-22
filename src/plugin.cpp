@@ -8,4 +8,5 @@ void init(Plugin *p) {
   p->addModel(modelAccumulatorSingle);
   p->addModel(modelComparator);
   p->addModel(modelBroadcast);
+  p->addModel(modelTriggerSpray);
 }

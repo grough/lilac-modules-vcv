@@ -46,6 +46,15 @@
       "description": "",
       "tags": [],
       "hidden": true
+    },
+    {
+      "slug": "TriggerSpray",
+      "name": "TriggerSpray",
+      "description": "Randomly delay a single trigger to produce polyphonic trigger output",
+      "tags": [
+        "Polyphonic"
+      ],
+      "hidden": true
     }
   ]
 }
