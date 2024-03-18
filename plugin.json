@@ -48,13 +48,19 @@
       "hidden": true
     },
     {
-      "slug": "TriggerSpray",
-      "name": "TriggerSpray",
-      "description": "Randomly delay a single trigger to produce polyphonic trigger output",
+      "slug": "Spray",
+      "name": "Spray",
+      "description": "Randomly delay a trigger to produce polyphonic trigger output",
       "tags": [
         "Polyphonic"
       ],
-      "hidden": true
+      "hidden": false
+    },
+    {
+      "slug": "Counter",
+      "name": "Counter",
+      "description": "A gate that stays open for a number of clock pulses",
+      "tags": []
     }
   ]
 }

@@ -8,4 +8,5 @@ extern Model *modelAccumulator;
 extern Model *modelAccumulatorSingle;
 extern Model *modelComparator;
 extern Model *modelBroadcast;
-extern Model *modelTriggerSpray;
+extern Model *modelSpray;
+extern Model *modelCounter;

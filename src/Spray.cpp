@@ -1,10 +1,11 @@
 #include "plugin.hpp"
 #include "./controls.hpp"
 
-struct TriggerSpray : Module {
+struct Spray : Module {
   enum ParamId {
     DELAY_TIME_PARAM,
     VOICES_PARAM,
+    BIAS_PARAM,
     PARAMS_LEN
   };
   enum InputId {
@@ -28,13 +29,14 @@ struct TriggerSpray : Module {
   float delay[16];
   int channels = 4;
 
-  TriggerSpray() {
+  Spray() {
     config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
     configParam(DELAY_TIME_PARAM, 0.f, 1.f, 0.f, "Max time", " s");
     configParam(VOICES_PARAM, 1.f, 16.f, 4.f, "Voices");
+    configParam(BIAS_PARAM, 1.f, 32.f, 1.f, "Bias");
     configInput(TRIGGER_INPUT, "Trigger");
     configInput(DELAY_TIME_INPUT, "Time attenuator");
-    configOutput(TRIGGER_OUTPUT, "");
+    configOutput(TRIGGER_OUTPUT, "Poly trigger");
     paramQuantities[VOICES_PARAM]->snapEnabled = true;
     uiDivider.setDivision(1024);
   }
@@ -55,32 +57,33 @@ struct TriggerSpray : Module {
       getOutput(TRIGGER_OUTPUT).setVoltage(trigs[i].process(args.sampleTime) * 10.f, i);
     }
 
-    if (inputTrig.process(getInput(TRIGGER_INPUT).getVoltage() > 0.f)) {
+    if (inputTrig.process(getInput(TRIGGER_INPUT).getVoltageSum() > 0.f)) {
       timer.reset();
       for (size_t i = 0; i < channels; i++) {
         armed[i] = true;
+        // delay[i] = std::pow(random::uniform(), getParam(BIAS_PARAM).getValue()) * getParam(DELAY_TIME_PARAM).getValue() * (getInput(DELAY_TIME_INPUT).isConnected() ? getInput(DELAY_TIME_INPUT).getVoltage() / 10.f : 1.f);
         delay[i] = random::uniform() * getParam(DELAY_TIME_PARAM).getValue() * (getInput(DELAY_TIME_INPUT).isConnected() ? getInput(DELAY_TIME_INPUT).getVoltage() / 10.f : 1.f);
       }
     };
   }
 };
 
-struct TriggerSprayWidget : ModuleWidget {
-  TriggerSprayWidget(TriggerSpray *module) {
+struct SprayWidget : ModuleWidget {
+  SprayWidget(Spray *module) {
     setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/TriggerSpray.svg")));
+    setPanel(createPanel(asset::plugin(pluginInstance, "res/Spray.svg")));
 
     addChild(createWidget<LilacScrew>(Vec(RACK_GRID_WIDTH, 0)));
     addChild(createWidget<LilacScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 
-    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 37.043)), module, TriggerSpray::DELAY_TIME_PARAM));
-    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 74.084)), module, TriggerSpray::VOICES_PARAM));
+    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 56.622)), module, Spray::DELAY_TIME_PARAM));
+    addParam(createParamCentered<LilacKnob>(mm2px(Vec(7.62, 91.018)), module, Spray::VOICES_PARAM));
 
-    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 15.89)), module, TriggerSpray::TRIGGER_INPUT));
-    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 50.222)), module, TriggerSpray::DELAY_TIME_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 33.352)), module, Spray::TRIGGER_INPUT));
+    addInput(createInputCentered<LilacPort>(mm2px(Vec(7.62, 69.801)), module, Spray::DELAY_TIME_INPUT));
 
-    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 112.359)), module, TriggerSpray::TRIGGER_OUTPUT));
+    addOutput(createOutputCentered<LilacPort>(mm2px(Vec(7.62, 112.359)), module, Spray::TRIGGER_OUTPUT));
   }
 };
 
-Model *modelTriggerSpray = createModel<TriggerSpray, TriggerSprayWidget>("TriggerSpray");
+Model *modelSpray = createModel<Spray, SprayWidget>("Spray");
