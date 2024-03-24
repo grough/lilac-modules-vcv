@@ -10,4 +10,5 @@ void init(Plugin *p) {
   p->addModel(modelBroadcast);
   p->addModel(modelSpray);
   p->addModel(modelCounter);
+  p->addModel(modelPitchGate);
 }

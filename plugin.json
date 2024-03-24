@@ -61,6 +61,12 @@
       "name": "Counter",
       "description": "A gate that stays open for a number of clock pulses",
       "tags": []
+    },
+    {
+      "slug": "PitchGate",
+      "name": "Pitch Gate",
+      "description": "Generate gate lengths from frequency",
+      "tags": []
     }
   ]
 }
