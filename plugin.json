@@ -67,6 +67,12 @@
       "name": "Pitch Gate",
       "description": "Generate gate lengths from frequency",
       "tags": []
+    },
+    {
+      "slug": "MultiAssign",
+      "name": "Multi Assign",
+      "description": "",
+      "tags": []
     }
   ]
 }

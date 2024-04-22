@@ -11,4 +11,5 @@ void init(Plugin *p) {
   p->addModel(modelSpray);
   p->addModel(modelCounter);
   p->addModel(modelPitchGate);
+  p->addModel(modelMultiAssign);
 }

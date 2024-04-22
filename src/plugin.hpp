@@ -11,3 +11,4 @@ extern Model *modelBroadcast;
 extern Model *modelSpray;
 extern Model *modelCounter;
 extern Model *modelPitchGate;
+extern Model *modelMultiAssign;
