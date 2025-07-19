@@ -21,16 +21,6 @@
       ]
     },
     {
-      "slug": "AccumulatorSingle",
-      "name": "AccumulatorSingle",
-      "description": "",
-      "tags": [
-        "Polyphonic",
-        "Utility"
-      ],
-      "hidden": true
-    },
-    {
       "slug": "Comparator",
       "name": "Comparator",
       "description": "Polyphonic voltage comparator with adjustable tolerance",
@@ -39,40 +29,6 @@
         "Polyphonic",
         "Utility"
       ]
-    },
-    {
-      "slug": "Broadcast",
-      "name": "Broadcast",
-      "description": "",
-      "tags": [],
-      "hidden": true
-    },
-    {
-      "slug": "Spray",
-      "name": "Spray",
-      "description": "Randomly delay a trigger to produce polyphonic trigger output",
-      "tags": [
-        "Polyphonic"
-      ],
-      "hidden": false
-    },
-    {
-      "slug": "Counter",
-      "name": "Counter",
-      "description": "A gate that stays open for a number of clock pulses",
-      "tags": []
-    },
-    {
-      "slug": "PitchGate",
-      "name": "Pitch Gate",
-      "description": "Generate gate lengths from frequency",
-      "tags": []
-    },
-    {
-      "slug": "MultiAssign",
-      "name": "Multi Assign",
-      "description": "",
-      "tags": []
     }
   ]
 }
